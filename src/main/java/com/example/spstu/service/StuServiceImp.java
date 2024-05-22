@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//抽象 service 实现
 @Service
 public class StuServiceImp implements StuService {
+    //后台模拟数据库
     private List<Student> studentList;
-
+    //模拟数据库
     public StuServiceImp() {
         studentList = new ArrayList<Student>();
         studentList.add(new Student(1, "张三", "111", "1"));
