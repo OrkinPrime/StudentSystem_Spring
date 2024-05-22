@@ -29,8 +29,9 @@ public class StuController {
     }
     //查询
     @GetMapping("api/v1/students/{studentId}")
-    public Student getStudentByID(@PathVariable("studentId") int studentId) throws NotFoundException {
+    public Student getStudentByID(@PathVariable("studentId") int studentId) {
         Student student = stuService.getStudentById(studentId);
+        //抛错无法生效
         if (student == null)
             throw new NotFoundException("The Student ID [" + studentId + "] not found");
         return student;

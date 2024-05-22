@@ -21,12 +21,14 @@ public class StuServiceImp implements StuService {
     @Override
     public Student getStudentById(int stu_id) {
         Student stu = new Student();
+
         for (Student s : studentList) {
             if (s.getStu_id() == stu_id) {
                 stu = s;
+                return stu;
             }
         }
-        return stu;
+        return null;
     }
 
     @Override
