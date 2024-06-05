@@ -1,37 +1,68 @@
 package com.example.spstu.mapper;
 
-import com.example.spstu.model.Class_;
+import com.example.spstu.model.SClass;
+import com.example.spstu.model.Student;
 import com.example.spstu.model.Student_Class;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
 import java.util.List;
 import java.util.Map;
 
 @Mapper
 public interface StuMapper {
 
-    @Select("select * from class")
-    List<Class_> getAllClass();
+    //根据ID获取某一个学生的信息
+    @Select("select * from student where student.ID=#{stuID}")
+    Student getStudentByID(Long stuID);
 
-    @Select("SELECT s.STU_ID, s.STU_NAME, s.STU_NO, c.CLASS_NAME, s.STU_AGE, s.STU_GPA " +
+    //根据ID获取某一个班级的信息
+    @Select("select * from sclass where sclass.ID=#{classID}")
+    SClass getSClassByID(Long classID);
+
+    //获取所有班级数据
+    @Select("select * from sclass")
+    List<SClass> getAllClass();
+
+    //增加一条学生信息
+    @Insert("INSERT INTO student(stuName, stuNo, classId, age, gpa) VALUES (#{stuName}, #{stuNo}, #{classId}, #{age}, #{gpa})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    boolean addStudent(Student stu);
+
+    //根据ID删除一个学生的信息
+    @Delete("delete from student where student.ID=#{stuID}")
+    void deleteStudentById(Long stuID);
+
+    /*
+    @Select("SELECT s.ID, s.STUNAME, s.STUNO, c.CLASSNAME, s.AGE, s.GPA " +
             "FROM student s " +
-            "LEFT JOIN class c ON s.CLASS_ID = c.CLASS_ID ")
+            "LEFT JOIN sclass c ON s.CLASSID = c.ID ")
     List<Student_Class> getAllStudent();
 
     @Select("<script>" +
-            "SELECT s.STU_ID, s.STU_NAME, s.STU_NO, c.CLASS_NAME, s.STU_AGE, s.STU_GPA " +
+            "SELECT s.ID, s.STUNAME, s.STUNO, c.CLASSNAME, s.AGE, s.GPA " +
             "FROM student s " +
-            "LEFT JOIN class c ON s.CLASS_ID = c.CLASS_ID " +
+            "LEFT JOIN sclass c ON s.CLASSID = c.ID " +
             "<where>" +
             " 1=1 "+
-            "<if test='stuName != null'>AND s.STU_NAME LIKE CONCAT('%', #{stuName}, '%')</if>" +
-            "<if test='stuNo != null'> AND s.STU_NO LIKE CONCAT('%', #{stuNo}, '%')</if>" +
-            "<if test='className != null'> AND c.CLASS_NAME LIKE CONCAT('%', #{className}, '%')</if>" +
-            "<if test='stuAge != null'> AND s.STU_AGE = #{stuAge}</if>" +
-            "<if test='stuGpa != null'> AND s.STU_GPA = #{stuGpa} </if>"+
+            "<if test='stuName != null'>AND s.STUNAME LIKE CONCAT('%', #{stuName}, '%')</if>" +
+            "<if test='stuNo != null'> AND s.STUNO = #{stuNo} </if>" +
+            "<if test='className != null'> AND c.CLASSNAME LIKE CONCAT('%', #{className}, '%')</if>" +
+            "<if test='stuAge != null'> AND s.AGE = #{stuAge}</if>" +
+            "<if test='stuGpa != null'> AND s.GPA = #{stuGpa} </if>"+
             "</where>"+
             "</script>"
     )
     List<Student_Class> selectStudentsByConditions(Map<String,Object> conditions);
 
+
+
+    @Update("UPDATE student "+
+            "SET " +
+            "STUNAME = #{stuName} "+
+            "STUNO = #{stuNo}" +
+            "CLASSID = #{classId}" +
+            "AGE = #{stuAge}" +
+            "GPA = #{stuGpa}"
+    )
+    boolean updateStudent(Student student);*/
 }

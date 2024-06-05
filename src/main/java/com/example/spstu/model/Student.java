@@ -1,21 +1,20 @@
 package com.example.spstu.model;
 
-public class Student_Class {
+public class Student {
     private Long id;
-    private Long stuNo;
+    private Long classId;
     private String stuName;
-    private SClass stuClass;
+    private Long stuNo;
     private Integer age;
     private double gpa;
 
-    public Student_Class() {
+    public Student() {
     }
-
-    public Student_Class(Long id, String stuName, Long stuNo, SClass stuClass, Integer age, double gpa) {
+    public Student(Long id, Long classId, String stuName, Long stuNo, Integer age, double gpa) {
         this.id = id;
+        this.classId = classId;
         this.stuName = stuName;
         this.stuNo = stuNo;
-        this.stuClass = stuClass;
         this.age = age;
         this.gpa = gpa;
     }
@@ -26,6 +25,14 @@ public class Student_Class {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Long classId) {
+        this.classId = classId;
     }
 
     public String getStuName() {
@@ -42,14 +49,6 @@ public class Student_Class {
 
     public void setStuNo(Long stuNo) {
         this.stuNo = stuNo;
-    }
-
-    public SClass getStuClass() {
-        return stuClass;
-    }
-
-    public void setStuClass(SClass stuClass) {
-        this.stuClass = stuClass;
     }
 
     public Integer getAge() {
