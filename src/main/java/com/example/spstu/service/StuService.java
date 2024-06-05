@@ -1,17 +1,14 @@
 package com.example.spstu.service;
 
-import com.example.spstu.model.Student;
+import com.example.spstu.model.Class_;
+import com.example.spstu.model.Student_Class;
 
 import java.util.List;
+import java.util.Map;
+
 //抽象 service 接口
 public interface StuService {
-    Student getStudentById(int stu_id);
-
-    Student addStudent(Student student);
-
-    List<Student> getAllStudents();
-
-    Student deleteStudentById(int stu_id);
-
-    Student updateStudentById(int stu_id, Student student);
+    List<Class_> getAllClasses();
+    List<Student_Class> getAllStudents();
+    List<Student_Class> selectStudentsByConditions(Map<String,Object> conditions);
 }
