@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +33,12 @@ public class StuController {
     public SClass getClassById(@PathVariable Long classId) {
         return stuService.getClassById(classId);
     }
-
-    //获取某一个学生的组合信息
+    //根据ID获取一个学生的信息
+    @GetMapping("api/v1/student/{stuID}")
+    public Student getStudent(@PathVariable Long stuID) {
+        return stuService.getStudentById(stuID);
+    }
+    //根据ID获取某一个学生的组合信息
     @GetMapping("api/v1/students/{stuID}")
     public Student_Class getStudentById(@PathVariable Long stuID) {
         Student stu = stuService.getStudentById(stuID);
@@ -70,8 +73,15 @@ public class StuController {
 
     //根据ID更新某学生信息(未完成)
     @PatchMapping("api/v1/students/{stuID}")
-    public Student_Class updateStudentById(@PathVariable Long stuID, @RequestBody Student_Class student) {
-        return student;
+    public Student_Class updateStudentById(@PathVariable Long stuID, @RequestBody Map<String, Object> updateFields) {
+        if (stuService.updateStudent(stuID, updateFields)) {
+            Student stu = stuService.getStudentById(stuID);
+            SClass sclass = stuService.getClassById(stu.getClassId());
+            Student_Class sc = new Student_Class(stu.getId(), stu.getStuName(), stu.getStuNo(), sclass, stu.getAge(), stu.getGpa());
+            return sc;
+        }else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
     //获取所有学生或根据条件查询学生数据（未完成）
 

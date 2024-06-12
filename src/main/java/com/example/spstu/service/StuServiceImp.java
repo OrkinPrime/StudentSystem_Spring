@@ -2,9 +2,11 @@ package com.example.spstu.service;
 
 import com.example.spstu.model.SClass;
 import com.example.spstu.model.Student;
+import com.example.spstu.model.Student_Class;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 
 import com.example.spstu.mapper.*;
 
@@ -49,6 +51,13 @@ public class StuServiceImp implements StuService {
     @Override
     public void deleteStudent(Long id) {
         stuMapper.deleteStudentById(id);
+    }
+
+    //根据ID更新某学生信息
+    @Override
+    public boolean updateStudent(Long stuID, Map<String, Object> updateFields) {
+        Student stuObj = new Student(stuID, (Long) updateFields.get("classId"), (String) updateFields.get("stuName"), (Long) updateFields.get("stuNo"), (Integer) updateFields.get("age"), (Double) updateFields.get("gpa"));
+        return stuMapper.updateStudent(stuObj);
     }
 
     /*    @Override

@@ -32,6 +32,24 @@ public interface StuMapper {
     @Delete("delete from student where student.ID=#{stuID}")
     void deleteStudentById(Long stuID);
 
+    //根据ID更新某学生信息
+    @Update(
+            {
+                    "<script>",
+                    "UPDATE student ",
+                    " <set> ",
+                    " <if test='stuName != null'>STUNAME=#{stuName},</if>",
+                    " <if test='stuNo!= null'>STUNO = #{stuNo},</if>",
+                    " <if test='classId!= null'>CLASSID = #{classId},</if>",
+                    " <if test='age!= null'>AGE = #{age},</if>",
+                    " <if test='gpa!= null'>GPA = #{gpa},</if>",
+                    " </set> ",
+                    " WHERE student.ID=#{id} ",
+                    "</script>"
+            }
+    )
+    boolean updateStudent(Student student);
+
     /*
     @Select("SELECT s.ID, s.STUNAME, s.STUNO, c.CLASSNAME, s.AGE, s.GPA " +
             "FROM student s " +
