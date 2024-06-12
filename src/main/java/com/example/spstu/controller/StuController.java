@@ -87,7 +87,7 @@ public class StuController {
         }
     }
 
-    ////动态条件排序查询学生组合信息
+    //动态条件排序查询学生组合信息
     @GetMapping("api/v1/students")
     public List<Student_Class> findAndOrderStudents(@RequestParam(required = false) Integer stuNo,
                                                     @RequestParam(required = false) String stuName,
@@ -95,7 +95,7 @@ public class StuController {
                                                     @RequestParam(required = false) Integer age,
                                                     @RequestParam(required = false) Double gpa,
                                                     @RequestParam(defaultValue = "1") Integer startPage,
-                                                    @RequestParam(defaultValue = "100") Integer pageSize,
+                                                    @RequestParam(defaultValue = "10") Integer pageSize,
                                                     @RequestParam(defaultValue = "stuNo") String orderBy
     ) {
         List<Student> studentList = stuService.findStudents(stuNo, stuName, classId, age, gpa, startPage, pageSize, orderBy);
@@ -107,55 +107,4 @@ public class StuController {
         }
         return ScList;
     }
-    /*
-    //学生信息——条件查询及全部查询
-
-    //    指令：/api/v1/students
-    //    效果：查询全部学生信息（连接班级）
-    //
-    //    指令： /api/v1/students?name=李
-    //    效果：查询全部学生信息（连接班级），条件为名字中带“李”
-    //    [其他指令及其效果以此类推]
-
-    @GetMapping("/api/v1/students")
-    public List<Student_Class> listStudents(
-            @RequestParam(value = "no", required = false) String stuNo,
-            @RequestParam(value = "name", required = false ) String stuName,
-            @RequestParam(value = "class", required = false ) String className,
-            @RequestParam(value = "age", required = false) String stuAge,
-            @RequestParam(value = "gpa", required = false) String stuGpa ) {
-
-        if (stuNo==null && stuName==null && className==null && stuAge==null && stuGpa==null)
-            return stuService.getAllStudents();
-        else {
-            Map<String, Object> cnds = new HashMap<>();
-            if (stuNo != null)
-                cnds.put("stuNo", stuNo);
-            if (stuName != null)
-                cnds.put("stuName", stuName);
-            if (className != null)
-                cnds.put("className", className);
-            if (stuAge != null)
-                cnds.put("stuAge", stuAge);
-            if (stuGpa != null)
-                cnds.put("stuGpa", stuGpa);
-            return stuService.selectStudentsByConditions(cnds);
-        }
-    }
-    @DeleteMapping("/api/v1/students/{stuID}")
-    public ResponseEntity deleteStudent(@PathVariable("stuID") Long stuID) {
-        Student student = stuService.getStudentById(stuID);
-        if (student == null)
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        stuService.deleteStudentByID(stuID);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-    @PatchMapping("/api/v2/students/{stuID}")
-    public ResponseEntity updateStudent(@PathVariable("stuID") Long stuID, @RequestBody Map<String, Object> updateFields) {
-        Student student = stuService.getStudentById(stuID);
-        if (student == null)
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        stuService.updateStudent(stuID,updateFields);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }*/
 }

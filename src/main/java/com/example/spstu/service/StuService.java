@@ -29,9 +29,4 @@ public interface StuService {
     //动态条件排序查询学生信息
     List<Student> findStudents(Integer stuNo, String stuName, Integer classId, Integer age, Double gpa,
                                Integer startPage, Integer pageSize, String orderBy);
-
-    /*    List<Student_Class> getAllStudents();
-    List<Student_Class> selectStudentsByConditions(Map<String,Object> conditions);
-    void deleteStudentByID(Long stuID);
-    Student updateStudent(Long stuId, Map<String, Object> updates);*/
 }

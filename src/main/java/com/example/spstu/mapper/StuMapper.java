@@ -60,38 +60,4 @@ public interface StuMapper {
             @Param("pageSize") Integer pageSize,
             @Param("orderBy") String orderBy
     );
-
-    /*
-    @Select("SELECT s.ID, s.STUNAME, s.STUNO, c.CLASSNAME, s.AGE, s.GPA " +
-            "FROM student s " +
-            "LEFT JOIN sclass c ON s.CLASSID = c.ID ")
-    List<Student_Class> getAllStudent();
-
-    @Select("<script>" +
-            "SELECT s.ID, s.STUNAME, s.STUNO, c.CLASSNAME, s.AGE, s.GPA " +
-            "FROM student s " +
-            "LEFT JOIN sclass c ON s.CLASSID = c.ID " +
-            "<where>" +
-            " 1=1 "+
-            "<if test='stuName != null'>AND s.STUNAME LIKE CONCAT('%', #{stuName}, '%')</if>" +
-            "<if test='stuNo != null'> AND s.STUNO = #{stuNo} </if>" +
-            "<if test='className != null'> AND c.CLASSNAME LIKE CONCAT('%', #{className}, '%')</if>" +
-            "<if test='stuAge != null'> AND s.AGE = #{stuAge}</if>" +
-            "<if test='stuGpa != null'> AND s.GPA = #{stuGpa} </if>"+
-            "</where>"+
-            "</script>"
-    )
-    List<Student_Class> selectStudentsByConditions(Map<String,Object> conditions);
-
-
-
-    @Update("UPDATE student "+
-            "SET " +
-            "STUNAME = #{stuName} "+
-            "STUNO = #{stuNo}" +
-            "CLASSID = #{classId}" +
-            "AGE = #{stuAge}" +
-            "GPA = #{stuGpa}"
-    )
-    boolean updateStudent(Student student);*/
 }
