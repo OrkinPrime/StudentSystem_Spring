@@ -2,9 +2,9 @@ package com.example.spstu.service;
 
 import com.example.spstu.model.SClass;
 import com.example.spstu.model.Student;
-import com.example.spstu.model.Student_Class;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +58,13 @@ public class StuServiceImp implements StuService {
     public boolean updateStudent(Long stuID, Map<String, Object> updateFields) {
         Student stuObj = new Student(stuID, (Long) updateFields.get("classId"), (String) updateFields.get("stuName"), (Long) updateFields.get("stuNo"), (Integer) updateFields.get("age"), (Double) updateFields.get("gpa"));
         return stuMapper.updateStudent(stuObj);
+    }
+
+    //动态条件排序查询学生信息
+    @Override
+    public List<Student> findStudents(Integer stuNo, String stuName, Integer classId, Integer age, Double gpa,
+                                      Integer startPage, Integer pageSize, String orderBy) {
+        return stuMapper.dynamicConditionStudents(stuNo, stuName, classId, age, gpa, startPage, pageSize, orderBy);
     }
 
     /*    @Override

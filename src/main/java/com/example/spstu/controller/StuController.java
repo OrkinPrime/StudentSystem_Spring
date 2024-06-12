@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,11 +34,13 @@ public class StuController {
     public SClass getClassById(@PathVariable Long classId) {
         return stuService.getClassById(classId);
     }
+
     //根据ID获取一个学生的信息
     @GetMapping("api/v1/student/{stuID}")
     public Student getStudent(@PathVariable Long stuID) {
         return stuService.getStudentById(stuID);
     }
+
     //根据ID获取某一个学生的组合信息
     @GetMapping("api/v1/students/{stuID}")
     public Student_Class getStudentById(@PathVariable Long stuID) {
@@ -71,7 +74,7 @@ public class StuController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    //根据ID更新某学生信息(未完成)
+    //根据ID更新某学生信息
     @PatchMapping("api/v1/students/{stuID}")
     public Student_Class updateStudentById(@PathVariable Long stuID, @RequestBody Map<String, Object> updateFields) {
         if (stuService.updateStudent(stuID, updateFields)) {
@@ -79,12 +82,31 @@ public class StuController {
             SClass sclass = stuService.getClassById(stu.getClassId());
             Student_Class sc = new Student_Class(stu.getId(), stu.getStuName(), stu.getStuNo(), sclass, stu.getAge(), stu.getGpa());
             return sc;
-        }else {
+        } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-    //获取所有学生或根据条件查询学生数据（未完成）
 
+    ////动态条件排序查询学生组合信息
+    @GetMapping("api/v1/students")
+    public List<Student_Class> findAndOrderStudents(@RequestParam(required = false) Integer stuNo,
+                                                    @RequestParam(required = false) String stuName,
+                                                    @RequestParam(required = false) Integer classId,
+                                                    @RequestParam(required = false) Integer age,
+                                                    @RequestParam(required = false) Double gpa,
+                                                    @RequestParam(defaultValue = "1") Integer startPage,
+                                                    @RequestParam(defaultValue = "100") Integer pageSize,
+                                                    @RequestParam(defaultValue = "stuNo") String orderBy
+    ) {
+        List<Student> studentList = stuService.findStudents(stuNo, stuName, classId, age, gpa, startPage, pageSize, orderBy);
+        List<Student_Class> ScList = new ArrayList<>();
+        for (Student stu : studentList) {
+            SClass sclass = stuService.getClassById(stu.getClassId());
+            Student_Class sc = new Student_Class(stu.getId(), stu.getStuName(), stu.getStuNo(), sclass, stu.getAge(), stu.getGpa());
+            ScList.add(sc);
+        }
+        return ScList;
+    }
     /*
     //学生信息——条件查询及全部查询
 

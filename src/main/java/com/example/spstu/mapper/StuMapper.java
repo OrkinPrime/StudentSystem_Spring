@@ -2,11 +2,9 @@ package com.example.spstu.mapper;
 
 import com.example.spstu.model.SClass;
 import com.example.spstu.model.Student;
-import com.example.spstu.model.Student_Class;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface StuMapper {
@@ -49,6 +47,19 @@ public interface StuMapper {
             }
     )
     boolean updateStudent(Student student);
+
+    //动态条件排序查询学生信息
+    @SelectProvider(type = StudentsProvider.class, method = "selectStudents")
+    List<Student> dynamicConditionStudents(
+            @Param("stuNo") Integer stuNo,
+            @Param("stuName") String stuName,
+            @Param("classId") Integer classId,
+            @Param("age") Integer age,
+            @Param("gpa") Double gpa,
+            @Param("startPage") Integer startPage,
+            @Param("pageSize") Integer pageSize,
+            @Param("orderBy") String orderBy
+    );
 
     /*
     @Select("SELECT s.ID, s.STUNAME, s.STUNO, c.CLASSNAME, s.AGE, s.GPA " +
