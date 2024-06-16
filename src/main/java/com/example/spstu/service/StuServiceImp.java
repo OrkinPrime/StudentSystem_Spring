@@ -56,7 +56,23 @@ public class StuServiceImp implements StuService {
     //根据ID更新某学生信息
     @Override
     public boolean updateStudent(Long stuID, Map<String, Object> updateFields) {
-        Student stuObj = new Student(stuID, (Long) updateFields.get("classId"), (String) updateFields.get("stuName"), (Long) updateFields.get("stuNo"), (Integer) updateFields.get("age"), (Double) updateFields.get("gpa"));
+        Long clsId = null;
+        if (updateFields.containsKey("classId")) {
+            clsId = Long.valueOf((String) updateFields.get("classId").toString());
+        }
+        Long stNo = null;
+        if (updateFields.containsKey("stuNo")) {
+            stNo = Long.valueOf((String) updateFields.get("stuNo").toString());
+        }
+        double gpa = 0;
+        if (updateFields.containsKey("gpa")) {
+            gpa = Double.valueOf((String) updateFields.get("gpa").toString());
+        }
+        int age = 0;
+        if (updateFields.containsKey("age")) {
+            age = Integer.valueOf((String) updateFields.get("age").toString());
+        }
+        Student stuObj = new Student(stuID, clsId, (String) updateFields.get("stuName"), stNo, age, gpa);
         return stuMapper.updateStudent(stuObj);
     }
 

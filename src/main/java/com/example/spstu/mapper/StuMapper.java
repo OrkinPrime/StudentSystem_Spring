@@ -39,8 +39,8 @@ public interface StuMapper {
                     " <if test='stuName != null'>STUNAME=#{stuName},</if>",
                     " <if test='stuNo!= null'>STUNO = #{stuNo},</if>",
                     " <if test='classId!= null'>CLASSID = #{classId},</if>",
-                    " <if test='age!= null'>AGE = #{age},</if>",
-                    " <if test='gpa!= null'>GPA = #{gpa},</if>",
+                    " <if test='age!= 0'>AGE = #{age},</if>",
+                    " <if test='gpa!= 0'>GPA = #{gpa},</if>",
                     " </set> ",
                     " WHERE student.ID=#{id} ",
                     "</script>"

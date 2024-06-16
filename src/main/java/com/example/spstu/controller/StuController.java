@@ -95,7 +95,7 @@ public class StuController {
                                                     @RequestParam(required = false) Integer age,
                                                     @RequestParam(required = false) Double gpa,
                                                     @RequestParam(defaultValue = "1") Integer startPage,
-                                                    @RequestParam(defaultValue = "10") Integer pageSize,
+                                                    @RequestParam(defaultValue = "100") Integer pageSize,
                                                     @RequestParam(defaultValue = "stuNo") String orderBy
     ) {
         List<Student> studentList = stuService.findStudents(stuNo, stuName, classId, age, gpa, startPage, pageSize, orderBy);
