@@ -144,8 +144,8 @@
             font-size: 30px;
             text-align: center;
             color: #333;
-            margin-top: 0px;
-            margin-bottom: 0px;
+            margin-top: 0;
+            margin-bottom: 0;
         }
 
         h2 {
@@ -177,7 +177,7 @@
             <tbody id="main-shower">
             </tbody>
         </table>
-        <button class="loadmore" onclick="">加载更多</button>
+        <button class="loadmore" onclick="loadMore()">加载更多</button>
     </div>
 </div>
 
@@ -188,21 +188,21 @@
         <section>
             <form class="formJ" id="searchForm" accept-charset="UTF-8">
 
-                <label for="stuName">姓名:</label>
-                <input type="text" id="stuName" name="stuName" value=''>
-
-                <label for="stuNo">学号:</label>
-                <input type="text" id="stuNo" name="stuNo" value=''>
-
-                <label for="sclass_Sear">班级:</label>
-                <select id="sclass_Sear" class="sclass" name="classId">
-                </select>
-                <label for="age">年龄</label>
-                <input type="text" id="age" name="age" value=''>
-
-                <label for="gpa">GPA</label>
-                <input type="text" id="gpa" name="gpa" value=''>
-
+                <label for="stuName">姓名:
+                    <input type="text" id="stuName" name="stuName" value=''>
+                </label>
+                <label for="stuNo">学号:
+                    <input type="text" id="stuNo" name="stuNo" value=''>
+                </label>
+                <label for="sclass_Sear">班级:
+                    <select id="sclass_Sear" class="sclass" name="classId">
+                    </select></label>
+                <label for="age">年龄
+                    <input type="text" id="age" name="age" value=''>
+                </label>
+                <label for="gpa">GPA
+                    <input type="text" id="gpa" name="gpa" value=''>
+                </label>
                 <input type="reset" value="重置" class="btn" id="reset-button">
                 <input type="submit" value="查询" class="btn" onclick="closeSearchModal()">
             </form>
@@ -217,21 +217,21 @@
         <section>
             <form class="formJ" id="addForm" accept-charset="UTF-8">
 
-                <label for="stuName">姓名:</label>
-                <input type="text" name="stuName" value=''>
-
-                <label for="stuNo">学号:</label>
-                <input type="text" name="stuNo" value=''>
-
-                <label for="sclass_add">班级:</label>
-                <select id="sclass_add" class="sclass" name="classId">
-                </select>
-                <label for="age">年龄</label>
-                <input type="text" name="age" value=''>
-
-                <label for="gpa">GPA</label>
-                <input type="text" name="gpa" value=''>
-
+                <label for="stuName">姓名:
+                    <input type="text" name="stuName" value=''>
+                </label>
+                <label for="stuNo">学号:
+                    <input type="text" name="stuNo" value=''>
+                </label>
+                <label for="sclass_add">班级:
+                    <select id="sclass_add" class="sclass" name="classId">
+                    </select></label>
+                <label for="age">年龄
+                    <input type="text" name="age" value=''>
+                </label>
+                <label for="gpa">GPA
+                    <input type="text" name="gpa" value=''>
+                </label>
                 <input type="reset" value="重置" class="btn">
                 <input type="submit" value="插入" class="btn" onclick="closeAddModal()">
             </form>
@@ -246,21 +246,21 @@
         <section>
             <form class="formJ" id="changeForm" accept-charset="UTF-8">
 
-                <label for="stuName">姓名:</label>
-                <input type="text" name="stuName" value=''>
-
-                <label for="stuNo">学号:</label>
-                <input type="text" name="stuNo" value=''>
-
-                <label for="sclass_chang">班级:</label>
-                <select id="sclass_chang" class="sclass" name="classId">
-                </select>
-                <label for="age">年龄</label>
-                <input type="text" name="age" value=''>
-
-                <label for="gpa">GPA</label>
-                <input type="text" name="gpa" value=''>
-
+                <label for="stuName">姓名:
+                    <input type="text" name="stuName" value=''>
+                </label>
+                <label for="stuNo">学号:
+                    <input type="text" name="stuNo" value=''>
+                </label>
+                <label for="sclass_chang">班级:
+                    <select id="sclass_chang" class="sclass" name="classId">
+                    </select></label>
+                <label for="age">年龄
+                    <input type="text" name="age" value=''>
+                </label>
+                <label for="gpa">GPA
+                    <input type="text" name="gpa" value=''>
+                </label>
                 <input type="reset" value="重置" class="btn">
                 <input type="submit" value="完成修改" class="btn" onclick="closeChangeModal()">
             </form>
@@ -269,6 +269,18 @@
 </div>
 </body>
 <script>
+    var originalData = {};
+    var ID;
+    var pageSize=10;
+    var i =0;
+    var searchResult;
+
+    function loadMore(){
+        pageSize+=10;
+        i=0
+        show(searchResult);
+    }
+
     function openSearchModal() {
         $('#searchForm')[0].reset();
         $('#searchModal').show();
@@ -293,20 +305,79 @@
         $('#changeModal').show();
     }
 
+    function changeSubmitBind() {
+        $('#changeForm').submit(function (e) {
+            e.preventDefault();
+
+            if ($('#changeForm input[name="stuName"]').val() === '' || $('#changeForm input[name="stuNo"]').val() === '' || $('#changeForm select[name="classId"]').val() === '' || $('#changeForm input[name="age"]').val() === '' || $('#changeForm input[name="gpa"]').val() === '') {
+                alert("请完整填写学生信息！");
+            } else {
+                var formData = {
+                    stuName: $('#changeForm input[name="stuName"]').val(),
+                    stuNo: $('#changeForm input[name="stuNo"]').val(),
+                    classId: $('#changeForm select[name="classId"]').val(),
+                    age: $('#changeForm input[name="age"]').val(),
+                    gpa: $('#changeForm input[name="gpa"]').val()
+                };
+
+                var patchData = {}; // 用于PATCH请求的键值对
+
+                // 比较原始数据和表单数据
+                for (var key in originalData) {
+                    if (originalData[key] != formData[key]) {
+                        patchData[key] = formData[key]; // 如果不同，添加到patchData中
+                    }
+                }
+                // 如果patchData为空，说明没有需要更新的数据
+                if (Object.keys(patchData).length === 0) {
+                    alert("没有需要更新的数据！");
+                }else {
+                    // 如果需要更新，这里可以发送PATCH请求
+                    $.ajax(
+                        {
+                            url: `http://localhost:8080/api/v1/students/${ID}`,
+                            type: 'patch',
+                            data: JSON.stringify(patchData),
+                            contentType: 'application/json',
+                            success: function () {
+                                fetchData();
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+                }
+            }
+        });
+    }
+
     function closeChangeModal() {
         $('#changeModal').hide();
     }
 
     function changeById(stuId) {
+        ID = stuId;
         $.ajax({
-                url:`http://localhost:8080/api/v1/students/${stuId}`,
-                type:"get",
-                success:function (res){
+                url: `http://localhost:8080/api/v1/students/${stuId}`,
+                type: "get",
+                success: function (res) {
+                    originalData = {
+                        stuName: res.stuName,
+                        stuNo: res.stuNo,
+                        classId: res.stuClass.id,
+                        age: res.age,
+                        gpa: res.gpa
+                    };
+
                     $('#changeForm input[name="stuName"]').val(res.stuName);
                     $('#changeForm input[name="stuNo"]').val(res.stuNo);
                     $('#changeForm select[name="classId"]').val(res.stuClass.id);
                     $('#changeForm input[name="age"]').val(res.age);
                     $('#changeForm input[name="gpa"]').val(res.gpa);
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
                 }
             }
         );
@@ -334,18 +405,21 @@
         if (res != null) {
             var htmlContent = '';
             res.forEach(function (item) {
-                htmlContent += '<tr class="item">';
-                htmlContent +=
-                    '<td>' + item['stuName'] + '</td>' +
-                    '<td>' + item['stuNo'] + '</td>' +
-                    '<td>' + item['stuClass']['className'] + '</td>' +
-                    '<td>' + item['age'] + '</td>' +
-                    '<td>' + item['gpa'] + '</td>' +
-                    '<td>' +
-                    '<button class="changeById" onclick="changeById(' + item['id'] + ')">修改</button>' +
-                    '<button class="deleteById" onclick="deleteById(' + item['id'] + ')">删除</button>' +
-                    '</td>';
-                htmlContent += '</tr>';
+                if(i<pageSize){
+                    i++;
+                    htmlContent += '<tr class="item">';
+                    htmlContent +=
+                        '<td>' + item['stuName'] + '</td>' +
+                        '<td>' + item['stuNo'] + '</td>' +
+                        '<td>' + item['stuClass']['className'] + '</td>' +
+                        '<td>' + item['age'] + '</td>' +
+                        '<td>' + item['gpa'] + '</td>' +
+                        '<td>' +
+                        '<button class="changeById" onclick="changeById(' + item['id'] + ')">修改</button>' +
+                        '<button class="deleteById" onclick="deleteById(' + item['id'] + ')">删除</button>' +
+                        '</td>';
+                    htmlContent += '</tr>';
+                }
             });
             $('#main-shower').html(htmlContent);
         } else {
@@ -355,24 +429,36 @@
     }
 
     function search(queryString) {
+        pageSize=10;
+        i =0;
         $.ajax({
             url: `http://localhost:8080/api/v1/students?${queryString}`,
             type: 'get',
             success: function showData(res) {
-                show(res);
+                searchResult=res;
+                console.log(searchResult);
+                show(searchResult);
             }
         });
     }
 
     function fetchData() {
+        pageSize=10;
+        i=0;
         $.ajax({
             url: 'http://localhost:8080/api/v1/students',
             type: 'get',
             dataType: 'json',
             success: function showData(res) {
-                show(res);
+                searchResult=res;
+                show(searchResult);
             }
         });
+
+    }
+
+    $(document).ready(function () {
+        fetchData(); // 初始加载数据
         $.ajax({
             url: 'http://localhost:8080/api/v1/classes',
             type: 'get',
@@ -384,11 +470,6 @@
                 $('.sclass').append(htmls);
             }
         });
-    }
-
-    $(document).ready(function () {
-        fetchData(); // 初始加载数据
-
         $('#searchForm').submit(function (e) {
             e.preventDefault();
             var data = $(this).serializeArray();
@@ -399,29 +480,36 @@
             search(queryString);
         });
 
-        $('#addForm').submit(function (e){
+        $('#addForm').submit(function (e) {
             e.preventDefault();
 
-            var formData ={
-                stuName: $('#addForm input[name="stuName"]').val(),
-                stuNo:$('#addForm input[name="stuNo"]').val(),
-                classId:$('#addForm select[name="classId"]').val(),
-                age:$('#addForm input[name="age"]').val(),
-                gpa:$('#addForm input[name="gpa"]').val()
-            }
-            $.ajax({
-                url:'http://localhost:8080/api/v1/students',
-                type:'post',
-                data:JSON.stringify(formData),
-                contentType: 'application/json',
-                success: function() {
-                    fetchData();
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error: " + error);
+            if ($('#addForm input[name="stuName"]').val() === '' || $('#addForm input[name="stuNo"]').val() === '' || $('#addForm select[name="classId"]').val() === '' || $('#addForm input[name="age"]').val() === '' || $('#addForm input[name="gpa"]').val() === '') {
+                alert("请完整填写学生信息！");
+            } else {
+                var formData = {
+                    stuName: $('#addForm input[name="stuName"]').val(),
+                    stuNo: $('#addForm input[name="stuNo"]').val(),
+                    classId: $('#addForm select[name="classId"]').val(),
+                    age: $('#addForm input[name="age"]').val(),
+                    gpa: $('#addForm input[name="gpa"]').val()
                 }
-            });
+
+                $.ajax({
+                    url: 'http://localhost:8080/api/v1/students',
+                    type: 'post',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    success: function () {
+                        fetchData();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error: " + error);
+                    }
+                });
+            }
         });
+
+        changeSubmitBind();
     });
 </script>
 </html>
